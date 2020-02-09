@@ -1,5 +1,8 @@
+import numpy as np           //用于给与二维数组空间
 arr = [3,34,4,12,5,2]
 
+//递归算法，一维数组来保存和
+//递归算法，一维数组来保存和
 def rec_subset(arr,i,s):
   if s == 0:
       return True
@@ -11,5 +14,23 @@ def rec_subset(arr,i,s):
     A = rec_subset(arr,i-1,s-arr[i])
     B = rec_subset(arr,i-1,s)
     return A or B
+  
+  //非递归，二维数组来保存中间和的情况
+ def dp-subset(arr,s):
+    subset = np.zeros(len(arr),s+1),dtype=bool       //多少行   
+    subset[:,0] = Ture   //s = 0 的时候所有行的第零个数字都等于Ture
+    subset[0,:] = False  //第零行的所有数字都是False 
+    subset[0,arr[0]] = True  //除了第零行的第arr[0]个数字为false
+    for i in range(1,len(arr)):
+      for s in range(1,s+1):
+        if arr[i] >= s:   //如果arr数组的第i个数组比s大，
+          subset[i,s] = subset[i-1,s]
+         else:
+            A =rec_subset(i-1,s-arr[i])
+            B = rec_subset(i-1,s)
+         subset[i,s] = A or B
+    r,c = subset.shape
+    return subset[r-1,c-1]
     
-  rec_subset(arr,len(arr))
+  rec_subset(arr,len(arr)-1,9)
+  rec_subset(arr,9)
