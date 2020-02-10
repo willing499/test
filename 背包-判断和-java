@@ -1,0 +1,46 @@
+package test1;
+
+public class Test02 {
+	public static boolean rec_subset(int[] arr,int i,int s) {
+		if(s == 0) 
+			return true;
+		else if (i==0) return arr[0] == s;
+		else if (arr[i]>s) return rec_subset(arr, i-1, s);
+		else {
+			boolean a = rec_subset(arr, i-1, s-arr[i]);
+			boolean b = rec_subset(arr, i-1, s);
+			if(a || b) return true;
+		}
+		return false;
+    }
+
+	public static boolean dp_subset(int[] arr, int S) {	
+		boolean[][] subset = new boolean[arr.length][S+1];
+		for(int i = 0;i<arr.length;i++)
+			subset[i][0] = true;
+		for(int i = 0;i<S+1;i++)
+			subset[0][i] = false;
+		if(S>=arr[0]) 
+			subset[0][arr[0]]=true;
+		for(int i = 1;i<arr.length;i++) {
+			for(int s=1;s<S+1;s++) {
+				if(arr[i] >s){
+					subset[i][s] = subset[i-1][s];
+				}
+				else {
+					boolean a = subset[i-1][s-arr[i]];
+					boolean b = subset[i-1][s];
+					subset[i][s] = a||b;
+				}
+			}
+		}
+		return subset[arr.length-1][S];
+	}
+	
+	public static void main(String[] args) {
+		int arr[] = {1,4,8,5,14,23};
+		System.out.println(rec_subset(arr,5,9));
+		System.out.println(dp_subset(arr,9));
+		System.out.println(dp_subset(arr,100));
+	}
+}
